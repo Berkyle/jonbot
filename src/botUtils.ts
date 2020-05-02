@@ -1,0 +1,35 @@
+import { Message as DiscordMessage, Message } from 'discord.js';
+import { clientId } from './config';
+
+export const messageDoorman = (chatService: DiscordMessage): null | string => {
+  console.log(chatService.content);
+
+  const isChatMessage = chatService.type !== 'DEFAULT';
+  const authorIsJonbot = chatService.author.id === clientId;
+  const jonbotIsMentioned = chatService.mentions.users.get(clientId);
+
+  if (authorIsJonbot || isChatMessage || !jonbotIsMentioned) return null;
+
+  const message = chatService.content.trim();
+  const messageStripMention = message.replace(/<@!703401743857221665>/, '');
+
+  return messageStripMention;
+};
+
+type Reply = Promise<Message>;
+type ReplyCB = () => Reply;
+export const reply = (chatService: DiscordMessage, replyContent: string | string[]): true => {
+  if (typeof replyContent === 'string') {
+    chatService.reply(replyContent);
+  } else {
+    // Turn each message into a callback that resolves to a reply Promise.
+    const replyList = replyContent.map((message) => (): Reply => chatService.reply(message));
+
+    // Send replies as a chain, waiting for one reply to fully resolve before sending the next.
+    replyList.reduce(
+      (replyChain: Reply, thenCallback: ReplyCB) => replyChain.then(thenCallback),
+      replyList[0](),
+    );
+  }
+  return true;
+};
