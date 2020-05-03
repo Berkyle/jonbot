@@ -1,5 +1,6 @@
 type Status = 'INACTIVE' | 'INITIALIZING' | 'IN PROGRESS' | 'FINISHED';
 type Phase = 'NOT IN PROGRESS' | 'BIDDING' | 'ACTIVE';
+type JohnState = 'INACTIVE' | 'ACTIVE';
 
 export interface GameState {
   status: Status;
@@ -8,6 +9,10 @@ export interface GameState {
     [type: string]: Player;
   };
   bids: Bid[];
+  john: {
+    playerId: string;
+    state: JohnState;
+  };
 }
 
 export interface Player {
@@ -63,6 +68,7 @@ const state: GameState = {
   phase: 'NOT IN PROGRESS',
   players: {},
   bids: [],
+  john: { playerId: '', state: 'INACTIVE' },
 };
 
 export default state;

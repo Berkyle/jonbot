@@ -1,40 +1,30 @@
 import { Message } from 'discord.js';
 
 import { GameState } from '../state';
-import { helpMessage } from './help';
 
 const init = (state: GameState, chatService: Message): true => {
   if (state.status in ['INITIALIZING', 'IN PROGRESS']) {
     chatService.reply("Shut the fuck up mom I'm playing a game with my friends.");
   } else {
-    chatService.reply('Ayo! Game time, time for game.\n' + helpMessage());
+    chatService.reply(`
+Ayo! Game time, time for game.
+
+For a quick manual, say "<@!703401743857221665> help".
+
+Everyone who is playing, please send the message "<@!703401743857221665> register *__your character name__*".
+Remember, we need one of you to be John so that person should reply with "<@!703401743857221665> register John".
+Everyone not registering as John will be a Voice. After a Voice registers, they should send a private message to \
+me (Jonbot!) sharing their obsession, and then sharing their skills. This will look like
+    In the server: 
+    "<@!703401743857221665> register The Ghost of Richard Nixon"
+    Privately to JonBot:
+    "<@!703401743857221665> obsession 2 Committing election fraud"
+    "<@!703401743857221665> skill Public speaking, Wiretapping"
+`);
     state.status = 'INITIALIZING';
+    state.phase = 'NOT IN PROGRESS';
   }
   return true;
 };
 
 export default init;
-// Some old ass init messages I will probably just delete later.
-
-// const init0 = () => {
-//   return `
-//     I'm jonbot, Jon's robot attorney. You're all voices in my client's head, except for one of you.
-//     Who should that be? Whoever it is reply by mentioning me (@jonbot) saying "I am John". The first
-//     to reply gets it!
-//   `;
-// };
-
-// const init1 = (user: string) => {
-//   return `
-//     Great, ${user} is my esteemed client, Jon! Everyone else will join as a voice in my client's
-//     head. If that's you, please reply by mentioning me (again that's @jonbot ;D) with your voice's
-//     name, like "@jonbot big yoshi".
-//   `;
-// };
-
-// const init2 = () => {
-//   return `
-//     ezpz. Now, everyone needs to choose their skills. You can have 2 skills and start at 10
-//     willpower, or 3 skills and start at 7 willpower.
-//   `;
-// };

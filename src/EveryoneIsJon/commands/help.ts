@@ -1,19 +1,30 @@
 import { Message } from 'discord.js';
 
 export const helpMessage = (): string => `
-To do a command preface, your message with <@!703401743857221665>.
+To use a command, preface your message with <@!703401743857221665>.
 
 COMMANDS:
 **__init__** - Begin game setup.
-**__help__** - Show this help message if your fucking scroll button doesn't work for some reason.
-**__register <character name>__** - Join the game. Do this like now if you're playing.
-  Example: "<@!703401743857221665> register"
-**__obsession <your voice's obsession>__** - 
-**__start__** - Starts the game after setup is complete. Make sure every player has:
-  1. Shared their obsession, sent me their skills, and shared
 
-**__bid <willpower>__**: bid part of your remaining willpower. Remember you only have so much willpower.
+**__help__** - Show this help message.
+
+**__register <character name>__** - Join the game. To be used after *init* and before *start*.
+  Example: "<@!703401743857221665> register John"
+  Example: "<@!703401743857221665> register The Ghost of Richard Nixon"
+
+**__obsession <obsession difficulty> <your voice's obsession>__** - What your voice wants John to do. The difficulty level is either 1, 2, or 3. Check the rules for more on this.
+  Example: "<@!703401743857221665> obsession 2 Committing election fraud"
+
+**__skill <skill 1>, <skill 2>(?, <skill 3>)__** - Your Voice's skills. Taking 3 skills means you start with 7 willpower.
+  Example: "<@!703401743857221665> skill Public speaking, Wiretapping"
+
+**__start__** - Starts the game after setup is complete. Make sure that:
+  1. One player registered as John and every other player has registered as a voice.
+  2. Every voice has sent me their obsession and their skills
+
+**__bid <willpower>__**: bid part of your remaining willpower. Remember you only have so much per game.
   Example: "<@!703401743857221665> bid 2"
+
 **__inquire <character name>__**: inquire about a 
 **__status__** - I mansplain the current state of the game to you.
 

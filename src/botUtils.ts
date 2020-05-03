@@ -4,14 +4,14 @@ import { clientId } from './config';
 export const messageDoorman = (chatService: DiscordMessage): null | string => {
   console.log(chatService.content);
 
-  const isChatMessage = chatService.type !== 'DEFAULT';
   const authorIsJonbot = chatService.author.id === clientId;
+  const isNotChatMessage = chatService.type !== 'DEFAULT';
   const jonbotIsMentioned = chatService.mentions.users.get(clientId);
 
-  if (authorIsJonbot || isChatMessage || !jonbotIsMentioned) return null;
+  if (authorIsJonbot || isNotChatMessage || !jonbotIsMentioned) return null;
 
   const message = chatService.content.trim();
-  const messageStripMention = message.replace(/<@!703401743857221665>/, '');
+  const messageStripMention = message.replace(/.*<@!703401743857221665>/, '');
 
   return messageStripMention;
 };
