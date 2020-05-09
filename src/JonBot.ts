@@ -28,3 +28,5 @@ bot.on('message', (chatService) => {
 
 // Login with token
 bot.login(botToken);
+
+export default bot;

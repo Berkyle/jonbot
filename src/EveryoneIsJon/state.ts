@@ -1,46 +1,66 @@
-type Status = 'INACTIVE' | 'INITIALIZING' | 'IN PROGRESS' | 'FINISHED';
-type Phase = 'NOT IN PROGRESS' | 'BIDDING' | 'ACTIVE';
-type JohnState = 'INACTIVE' | 'ACTIVE';
+export enum Status {
+  INACTIVE = 'Inactive',
+  INITIALIZING = 'Initializing',
+  IN_PROGRESS = 'In progress',
+  FINISHED = 'Finished',
+}
+export enum Phase {
+  NOT_PLAYING = 'Not playing',
+  ACTIVE = 'Active',
+  BIDDING = 'Bidding',
+}
+export enum PlayerType {
+  JOHN,
+  VOICE,
+}
+export enum JohnState {
+  INACTIVE,
+  ACTIVE,
+}
 
 export interface GameState {
   status: Status;
   phase: Phase;
   players: {
-    [type: string]: Player;
+    [playerId: string]: Player;
   };
   bids: Bid[];
   john: {
     playerId: string;
+    controlledBy: string;
     state: JohnState;
+  };
+  server: {
+    channelId: string;
   };
 }
 
-export interface Player {
+export interface PlayerBase {
   id: string;
   name: string;
-  initiative?: number;
-  isJohn: boolean;
-  isVoice: boolean;
+  initiative: number;
+  playerType: PlayerType;
   obsession: Obsession | null;
-  points: number | null;
   skills: Skill[] | null;
+  points: number | null;
   willpower: number; // <= 10, starts at 7 if skills.length === 3
 }
 
-export interface Voice extends Player {
-  isJohn: false;
-  isVoice: true;
+export interface Voice extends PlayerBase {
+  playerType: PlayerType.VOICE;
   obsession: Obsession;
-  points: number;
   skills: Skill[]; // length 2 or 3
+  points: number;
 }
 
-export interface John extends Player {
-  isJohn: true;
-  isVoice: false;
+export interface John extends PlayerBase {
+  playerType: PlayerType.JOHN;
   obsession: null;
+  skills: null;
   points: null;
 }
+
+export type Player = John | Voice;
 
 export interface Skill {
   description: string;
@@ -55,20 +75,15 @@ export interface Bid {
   willpower: number;
 }
 
-export const gameStates = [
-  'initializing',
-  'choosing jon',
-  'choosing voices',
-  'choosing skills',
-  'test for control of jon',
-];
-
 const state: GameState = {
-  status: 'INACTIVE',
-  phase: 'NOT IN PROGRESS',
+  status: Status.INACTIVE,
+  phase: Phase.NOT_PLAYING,
   players: {},
   bids: [],
-  john: { playerId: '', state: 'INACTIVE' },
+  john: { playerId: '', controlledBy: '', state: JohnState.INACTIVE },
+  server: {
+    channelId: '',
+  },
 };
 
 export default state;

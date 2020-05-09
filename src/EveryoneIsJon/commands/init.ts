@@ -1,28 +1,25 @@
 import { Message } from 'discord.js';
 
-import { GameState } from '../state';
+import { GameState, Status, Phase } from '../state';
 
 const init = (state: GameState, chatService: Message): true => {
-  if (state.status in ['INITIALIZING', 'IN PROGRESS']) {
+  if (![Status.INACTIVE, Status.FINISHED].includes(state.status)) {
     chatService.reply("Shut the fuck up mom I'm playing a game with my friends.");
+  } else if (chatService.channel.type === 'dm') {
+    chatService.reply(
+      'Hey pal wanna maybe do this in a channel instead? You got friends? Wanna play a game with your friends? Yeah, beat it chump.',
+    );
   } else {
     chatService.reply(`
-Ayo! Game time, time for game.
+For a quick JohnBot manual, say "<@!703401743857221665> help".
+For the rules to Everyone Is John, go to https://rulebook.io/games/everyone-is-john/rules.
 
-For a quick manual, say "<@!703401743857221665> help".
-
-Everyone who is playing, please send the message "<@!703401743857221665> register *__your character name__*".
-Remember, we need one of you to be John so that person should reply with "<@!703401743857221665> register John".
-Everyone not registering as John will be a Voice. After a Voice registers, they should send a private message to \
-me (Jonbot!) sharing their obsession, and then sharing their skills. This will look like
-    In the server: 
-    "<@!703401743857221665> register The Ghost of Richard Nixon"
-    Privately to JonBot:
-    "<@!703401743857221665> obsession 2 Committing election fraud"
-    "<@!703401743857221665> skill Public speaking, Wiretapping"
-`);
-    state.status = 'INITIALIZING';
-    state.phase = 'NOT IN PROGRESS';
+If you're playing, send the message "<@!703401743857221665> register *__your character name__*".
+One of you must be John. Whoever that is, reply with "<@!703401743857221665> register John".
+Everyone not registering as John will be a Voice.`);
+    state.status = Status.INITIALIZING;
+    state.phase = Phase.NOT_PLAYING;
+    state.server.channelId = chatService.channel.id;
   }
   return true;
 };

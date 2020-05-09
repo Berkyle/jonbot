@@ -1,41 +1,44 @@
 import { Message } from 'discord.js';
 
-import { GameState } from '../state';
+import { GameState, Status, Phase, PlayerType } from '../state';
 import { reply } from '../../botUtils';
 
 const start = (state: GameState, chatService: Message): true => {
-  if (state.status !== 'INITIALIZING') {
+  if (state.status !== Status.INITIALIZING) {
     chatService.reply("Hey idiot we're not setting up right now, nice try.");
   } else if (Object.keys(state.players).length < 3) {
     chatService.reply('We need at least three people to play.');
   } else if (!state.john.playerId) {
     chatService.reply('We need someone to be John.');
-  } else if (!state.john.playerId) {
-    chatService.reply('We need someone to be John.');
+  } else if (chatService.channel.id !== state.server.channelId) {
+    chatService.reply('Start the game in the channel it was initialized in pls.');
+  } else if (chatService.author.id !== state.john.playerId) {
+    chatService.reply('The game must be started by John.');
   } else {
     let errors = '';
-    let status = '';
+    let summary = '';
     Object.values(state.players).forEach((player) => {
-      if (player.isVoice) {
-        if (!player.obsession?.description) {
+      if (player.playerType === PlayerType.VOICE) {
+        if (!player.obsession.description) {
           errors += `<@${player.id}> send me a DM with your obsession and its difficulty.\n`;
-        } else if (!(player.obsession?.level && player.obsession?.level in [1, 2, 3])) {
+        } else if (!(player.obsession.level && player.obsession.level in [1, 2, 3])) {
           errors += `<@${player.id}> send me a DM with your obsession and its difficulty.\n`;
         }
-        if (!(player.skills?.length && player.skills.length in [2, 3])) {
+        if (!(player.skills.length && player.skills.length in [2, 3])) {
           errors += `<@${player.id}> send me a DM with your skills.\n`;
         }
       }
-      status += `<@${player.id}> is ${player.isVoice ? `a voice named ${player.name}` : 'John'}.\n`;
+      const type = player.playerType === PlayerType.VOICE ? `a Voice named ${player.name}` : 'John';
+      summary += `<@${player.id}> is ${type}.\n`;
     });
     if (errors.length) {
       chatService.reply(errors);
     } else {
-      state.status = 'IN PROGRESS';
-      state.phase = 'BIDDING';
+      state.status = Status.IN_PROGRESS;
+      state.phase = Phase.BIDDING; // The game starts with a bid for control of John.
       reply(chatService, [
         'Starting game...',
-        status,
+        summary,
         'And now it\'s bidding time! Everyone bid for control of John by messaging me with your bid! ie: "<@!703401743857221665> bid 2"',
       ]);
     }

@@ -2,13 +2,18 @@ import { Message as DiscordMessage, Message } from 'discord.js';
 import { clientId } from './config';
 
 export const messageDoorman = (chatService: DiscordMessage): null | string => {
-  console.log(chatService.content);
-
   const authorIsJonbot = chatService.author.id === clientId;
-  const isNotChatMessage = chatService.type !== 'DEFAULT';
   const jonbotIsMentioned = chatService.mentions.users.get(clientId);
 
-  if (authorIsJonbot || isNotChatMessage || !jonbotIsMentioned) return null;
+  if (authorIsJonbot) {
+    console.log(`!Ignoring my own message.`);
+    return null;
+  } else if (!jonbotIsMentioned) {
+    console.log(`!Ignoring @jonbot-free message: ${chatService.content}`);
+    return null;
+  } else {
+    console.log(`!Received: ${chatService.content}`);
+  }
 
   const message = chatService.content.trim();
   const messageStripMention = message.replace(/.*<@!703401743857221665>/, '');

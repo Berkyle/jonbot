@@ -21,6 +21,7 @@ COMMANDS:
 **__start__** - Starts the game after setup is complete. Make sure that:
   1. One player registered as John and every other player has registered as a voice.
   2. Every voice has sent me their obsession and their skills
+  3. John is the one to start the game, in the channel that we started with "<@!703401743857221665> init"
 
 **__bid <willpower>__**: bid part of your remaining willpower. Remember you only have so much per game.
   Example: "<@!703401743857221665> bid 2"
