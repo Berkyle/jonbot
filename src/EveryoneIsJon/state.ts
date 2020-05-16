@@ -13,10 +13,6 @@ export enum PlayerType {
   JOHN,
   VOICE,
 }
-export enum JohnState {
-  INACTIVE,
-  ACTIVE,
-}
 
 export interface GameState {
   status: Status;
@@ -30,7 +26,6 @@ export interface GameState {
   john: {
     playerId: string;
     controlledBy: string;
-    state: JohnState;
   };
   server: {
     channelId: string;
@@ -81,7 +76,7 @@ const state: GameState = {
   phase: Phase.NOT_PLAYING,
   players: {},
   bids: {},
-  john: { playerId: '', controlledBy: '', state: JohnState.INACTIVE },
+  john: { playerId: '', controlledBy: '' },
   server: {
     channelId: '',
   },

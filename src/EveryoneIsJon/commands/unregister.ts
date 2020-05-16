@@ -27,7 +27,7 @@ const unregister = (state: GameState, chatService: Message, message: string): tr
     if (reply) {
       chatService.reply(`Unregistered ${maybeName}... ${reply}`);
     } else {
-      chatService.reply(`Sorry, who are you? Beat it, pal.`);
+      chatService.reply(`Sorry, who are you? Yeah, beat it, pal.`);
     }
   } else if (authorId === '172158193416404992') {
     // I swear I'm not an asshole I just don't trust my own code.

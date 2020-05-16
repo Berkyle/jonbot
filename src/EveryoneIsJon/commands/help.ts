@@ -9,6 +9,7 @@ example: "<@!703401743857221665> help" will run the help command, which prints t
 **init** - Begin game setup.
 **register <character name>** - Join the game.
   Examples: "<@!703401743857221665> register John", "<@!703401743857221665> register The Ghost of Richard Nixon"
+**unregister** - If you decide you don't want to play, use this.
 **obsession <difficulty> <your obsession>** - Set your Voice's obsession
   Example: "<@!703401743857221665> obsession 2 Committing election fraud"
 **skill <skill 1>, <skill 2>(?, <skill 3>)** - Set your Voice's skills

@@ -15,17 +15,19 @@ const status = (state: GameState, chatService: Message): true => {
     chatService.reply(gameStateSummary);
   } else {
     // We know for sure we are in a DM with a player
+    let summary = gameStateSummary;
+
     if (authorPlayer.playerType === PlayerType.JOHN) {
       const players = Object.values(state.players);
-      const playersStats = players.reduce((message: string, player: Player) => {
-        if (player.playerType !== PlayerType.JOHN) {
-          message += playerSummary(player) + '\n';
+      summary += players.reduce((message: string, player: Player) => {
+        if (player.playerType === PlayerType.VOICE) {
+          message += `\n${playerSummary(player)}`;
         }
         return message;
       }, '');
-      chatService.reply(playersStats);
+      chatService.reply(summary);
     } else {
-      const summary = `${gameStateSummary}\n\n${playerSummary(authorPlayer)}`;
+      summary = `${playerSummary(authorPlayer)}\n${summary}`;
       chatService.reply(summary);
     }
   }
