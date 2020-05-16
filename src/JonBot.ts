@@ -4,7 +4,7 @@ import { botToken } from './config';
 import { messageDoorman } from './botUtils';
 import { checkForJokes } from './jokes';
 import state from './EveryoneIsJon/state';
-import checkForEIJCommands from './EveryoneIsJon/checkForCommands';
+import checkForEIJCommands from './EveryoneIsJon/parseCommands';
 
 const bot = new Discord.Client();
 
@@ -14,10 +14,11 @@ bot.on('message', (chatService) => {
   const message = messageDoorman(chatService);
   if (message === null) return;
 
-  console.log(state);
-
   const hasEIJCommands = checkForEIJCommands(chatService, message);
-  if (hasEIJCommands) return;
+  if (hasEIJCommands) {
+    console.log(state);
+    return;
+  }
 
   const jokeFound = checkForJokes(message, chatService);
   if (jokeFound) return;

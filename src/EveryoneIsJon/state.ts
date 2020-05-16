@@ -24,7 +24,9 @@ export interface GameState {
   players: {
     [playerId: string]: Player;
   };
-  bids: Bid[];
+  bids: {
+    [playerId: string]: number | null;
+  };
   john: {
     playerId: string;
     controlledBy: string;
@@ -38,11 +40,11 @@ export interface GameState {
 export interface PlayerBase {
   id: string;
   name: string;
-  initiative: number;
+  initiative: number; // didn't end up using this, really
   playerType: PlayerType;
   obsession: Obsession | null;
   skills: Skill[] | null;
-  points: number | null;
+  points: number | null; // points are completely subjective, who cares
   willpower: number; // <= 10, starts at 7 if skills.length === 3
 }
 
@@ -71,7 +73,6 @@ export interface Obsession {
 }
 export interface Bid {
   playerId: string;
-  turn: number;
   willpower: number;
 }
 
@@ -79,7 +80,7 @@ const state: GameState = {
   status: Status.INACTIVE,
   phase: Phase.NOT_PLAYING,
   players: {},
-  bids: [],
+  bids: {},
   john: { playerId: '', controlledBy: '', state: JohnState.INACTIVE },
   server: {
     channelId: '',

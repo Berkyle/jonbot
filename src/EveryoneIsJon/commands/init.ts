@@ -11,9 +11,10 @@ const init = (state: GameState, chatService: Message): true => {
     );
   } else {
     chatService.reply(`
-For a quick JohnBot manual, say "<@!703401743857221665> help".
-For the rules to Everyone Is John, go to https://rulebook.io/games/everyone-is-john/rules.
+**Initializing a new game of Everyone is John!**
+For a JonBot manual, say "<@!703401743857221665> help". For the rules to Everyone Is John, go to https://rulebook.io/games/everyone-is-john/rules.
 
+**Next steps:**
 If you're playing, send the message "<@!703401743857221665> register *__your character name__*".
 One of you must be John. Whoever that is, reply with "<@!703401743857221665> register John".
 Everyone not registering as John will be a Voice.`);

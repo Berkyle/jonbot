@@ -3,32 +3,28 @@ import { Message } from 'discord.js';
 export const helpMessage = (): string => `
 To use a command, preface your message with <@!703401743857221665>.
 
-COMMANDS:
-**__init__** - Begin game setup.
+example: "<@!703401743857221665> help" will run the help command, which prints this message.
 
-**__help__** - Show this help message.
-
-**__register <character name>__** - Join the game. To be used after *init* and before *start*.
-  Example: "<@!703401743857221665> register John"
-  Example: "<@!703401743857221665> register The Ghost of Richard Nixon"
-
-**__obsession <obsession difficulty> <your voice's obsession>__** - What your voice wants John to do. The difficulty level is either 1, 2, or 3. Check the rules for more on this.
+**__SETUP COMMANDS__**
+**init** - Begin game setup.
+**register <character name>** - Join the game.
+  Examples: "<@!703401743857221665> register John", "<@!703401743857221665> register The Ghost of Richard Nixon"
+**obsession <difficulty> <your obsession>** - Set your Voice's obsession
   Example: "<@!703401743857221665> obsession 2 Committing election fraud"
-
-**__skill <skill 1>, <skill 2>(?, <skill 3>)__** - Your Voice's skills. Taking 3 skills means you start with 7 willpower.
+**skill <skill 1>, <skill 2>(?, <skill 3>)** - Set your Voice's skills
   Example: "<@!703401743857221665> skill Public speaking, Wiretapping"
+**start** - Starts the game after setup is complete. 
 
-**__start__** - Starts the game after setup is complete. Make sure that:
-  1. One player registered as John and every other player has registered as a voice.
-  2. Every voice has sent me their obsession and their skills
-  3. John is the one to start the game, in the channel that we started with "<@!703401743857221665> init"
-
-**__bid <willpower>__**: bid part of your remaining willpower. Remember you only have so much per game.
+**__IN-GAME COMMANDS__**
+**bid <willpower>**: bid part of your remaining willpower. Remember you only have so much per game.
   Example: "<@!703401743857221665> bid 2"
-
-**__inquire <character name>__**: inquire about a 
-**__status__** - I mansplain the current state of the game to you.
-
+**finish bid**: To be used by the player narrating John to end the bid period.
+**roll (?+ <number>)**: Roll a d6, plus extra willpower if desired.
+  Example: "<@!703401743857221665> roll + 3"
+  Example: "<@!703401743857221665> roll"
+  *Note*: Use "roll!" if your voice has a skill in this action.
+**kick**: To be used by John when the voice controlling John is being boring.
+**status** - I mansplain the current state of the game to you.
 `;
 
 export const help = (chatService: Message): true => {

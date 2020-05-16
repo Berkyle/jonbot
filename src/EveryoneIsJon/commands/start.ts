@@ -2,6 +2,7 @@ import { Message } from 'discord.js';
 
 import { GameState, Status, Phase, PlayerType } from '../state';
 import { reply } from '../../botUtils';
+import { bidHelpMessage, startHelpInstruction } from '../gameUtils';
 
 const start = (state: GameState, chatService: Message): true => {
   if (state.status !== Status.INITIALIZING) {
@@ -32,15 +33,12 @@ const start = (state: GameState, chatService: Message): true => {
       summary += `<@${player.id}> is ${type}.\n`;
     });
     if (errors.length) {
-      chatService.reply(errors);
+      const errorHelp = startHelpInstruction();
+      chatService.reply(`${errors}\n${errorHelp}`);
     } else {
       state.status = Status.IN_PROGRESS;
       state.phase = Phase.BIDDING; // The game starts with a bid for control of John.
-      reply(chatService, [
-        'Starting game...',
-        summary,
-        'And now it\'s bidding time! Everyone bid for control of John by messaging me with your bid! ie: "<@!703401743857221665> bid 2"',
-      ]);
+      reply(chatService, ['Starting game...', summary, bidHelpMessage()]);
     }
   }
   return true;

@@ -46,6 +46,13 @@ and wiretapping. If you pick two skills you start with 10 willpower, as opposed 
 which would mean you start with 7 willpower.
 `;
 
+export const startHelpInstruction = (): string => `
+Before starting the game, make sure that:
+  1. One player registered as John and every other player registered as a voice.
+  2. Every voice has sent me their obsession and their skills
+  3. John is the one to start the game, in the channel that we started with "<@!703401743857221665> init"
+`;
+
 export const registerErrorMessage = `That's great bud but what is your voice's name? Try something like:
       "<@!703401743857221665> register Fat Cock Brock"
 Or, to be John, say "<@!703401743857221665> register John".`;
@@ -73,4 +80,17 @@ __**${player.name}**__:
   ${player.obsession.description} (difficulty: ${player.obsession.level})
 *Skills*:
 ${player.skills.map((skill, i) => `  ${i + 1}. ${skill.description}`)}
+`;
+
+export const bidHelpMessage = (): string => `
+It's time to bid for control of John! Everyone DM me (Jonbot!) with how much willpower you want \
+to bid! If you don't want to bid, just bid 0!
+
+Example: "<@!703401743857221665> bid 0"
+`;
+
+export const gameEndedMessage = (): string => `
+The game is over! Points are totally arbitrary so I don't keep track of them but count 'em up! \
+Points are calculated by multiplying your obsession difficulty by the number of times you achieved \
+that obsession!
 `;
