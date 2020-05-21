@@ -31,10 +31,12 @@ export const reply = (chatService: DiscordMessage, replyContent: string | string
     const replyList = replyContent.map((message) => (): Reply => chatService.reply(message));
 
     // Send replies as a chain, waiting for one reply to fully resolve before sending the next.
-    replyList.reduce(
-      (replyChain: Reply, thenCallback: ReplyCB) => replyChain.then(thenCallback),
-      replyList[0](),
-    );
+    replyList
+      .slice(1)
+      .reduce(
+        (replyChain: Reply, thenCallback: ReplyCB) => replyChain.then(thenCallback),
+        replyList[0](),
+      );
   }
   return true;
 };
